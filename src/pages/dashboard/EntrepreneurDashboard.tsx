@@ -9,18 +9,21 @@ import { InvestorCard } from '../../components/investor/InvestorCard';
 import { useAuth } from '../../context/AuthContext';
 import { CollaborationRequest } from '../../types';
 import { getRequestsForEntrepreneur } from '../../data/collaborationRequests';
+import { getUpcomingConfirmedMeetings } from '../../data/meetings';
 import { investors } from '../../data/users';
 
 export const EntrepreneurDashboard: React.FC = () => {
   const { user } = useAuth();
   const [collaborationRequests, setCollaborationRequests] = useState<CollaborationRequest[]>([]);
   const [recommendedInvestors, setRecommendedInvestors] = useState(investors.slice(0, 3));
-  
+  const [upcomingMeetingsCount, setUpcomingMeetingsCount] = useState(0);
+
   useEffect(() => {
     if (user) {
       // Load collaboration requests
       const requests = getRequestsForEntrepreneur(user.id);
       setCollaborationRequests(requests);
+      setUpcomingMeetingsCount(getUpcomingConfirmedMeetings(user.id).length);
     }
   }, [user]);
   
@@ -85,19 +88,21 @@ export const EntrepreneurDashboard: React.FC = () => {
           </CardBody>
         </Card>
         
-        <Card className="bg-accent-50 border border-accent-100">
-          <CardBody>
-            <div className="flex items-center">
-              <div className="p-3 bg-accent-100 rounded-full mr-4">
-                <Calendar size={20} className="text-accent-700" />
+        <Link to="/meetings">
+          <Card className="bg-accent-50 border border-accent-100" hoverable>
+            <CardBody>
+              <div className="flex items-center">
+                <div className="p-3 bg-accent-100 rounded-full mr-4">
+                  <Calendar size={20} className="text-accent-700" />
+                </div>
+                <div>
+                  <p className="text-sm font-medium text-accent-700">Upcoming Meetings</p>
+                  <h3 className="text-xl font-semibold text-accent-900">{upcomingMeetingsCount}</h3>
+                </div>
               </div>
-              <div>
-                <p className="text-sm font-medium text-accent-700">Upcoming Meetings</p>
-                <h3 className="text-xl font-semibold text-accent-900">2</h3>
-              </div>
-            </div>
-          </CardBody>
-        </Card>
+            </CardBody>
+          </Card>
+        </Link>
         
         <Card className="bg-success-50 border border-success-100">
           <CardBody>

@@ -68,6 +68,29 @@ export interface Document {
   ownerId: string;
 }
 
+export type MeetingStatus = 'pending' | 'accepted' | 'declined';
+
+export interface AvailabilitySlot {
+  id: string;
+  userId: string;
+  date: string; // ISO date, e.g. 2026-07-14
+  startTime: string; // HH:mm, 24h
+  endTime: string; // HH:mm, 24h
+}
+
+export interface Meeting {
+  id: string;
+  requesterId: string;
+  recipientId: string;
+  title: string;
+  date: string; // ISO date
+  startTime: string; // HH:mm
+  endTime: string; // HH:mm
+  status: MeetingStatus;
+  notes?: string;
+  createdAt: string;
+}
+
 export interface AuthContextType {
   user: User | null;
   login: (email: string, password: string, role: UserRole) => Promise<void>;
