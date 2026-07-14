@@ -9,6 +9,9 @@ import { DashboardLayout } from './components/layout/DashboardLayout';
 // Auth Pages
 import { LoginPage } from './pages/auth/LoginPage';
 import { RegisterPage } from './pages/auth/RegisterPage';
+import { ForgotPasswordPage } from './pages/auth/ForgotPasswordPage';
+import { ResetPasswordPage } from './pages/auth/ResetPasswordPage';
+import { RequireRole } from './components/auth/RequireRole';
 
 // Dashboard Pages
 import { EntrepreneurDashboard } from './pages/dashboard/EntrepreneurDashboard';
@@ -29,6 +32,7 @@ import { VideoCallPage } from './pages/video/VideoCallPage';
 import { SettingsPage } from './pages/settings/SettingsPage';
 import { HelpPage } from './pages/help/HelpPage';
 import { DealsPage } from './pages/deals/DealsPage';
+import { WalletPage } from './pages/wallet/WalletPage';
 import { MeetingsPage } from './pages/meetings/MeetingsPage';
 
 // Chat Pages
@@ -43,11 +47,27 @@ function App() {
           {/* Authentication Routes */}
           <Route path="/login" element={<LoginPage />} />
           <Route path="/register" element={<RegisterPage />} />
+          <Route path="/forgot-password" element={<ForgotPasswordPage />} />
+          <Route path="/reset-password" element={<ResetPasswordPage />} />
           
           {/* Dashboard Routes */}
           <Route path="/dashboard" element={<DashboardLayout />}>
-            <Route path="entrepreneur" element={<EntrepreneurDashboard />} />
-            <Route path="investor" element={<InvestorDashboard />} />
+            <Route
+              path="entrepreneur"
+              element={
+                <RequireRole role="entrepreneur">
+                  <EntrepreneurDashboard />
+                </RequireRole>
+              }
+            />
+            <Route
+              path="investor"
+              element={
+                <RequireRole role="investor">
+                  <InvestorDashboard />
+                </RequireRole>
+              }
+            />
           </Route>
           
           {/* Profile Routes */}
@@ -94,7 +114,18 @@ function App() {
           </Route>
           
           <Route path="/deals" element={<DashboardLayout />}>
-            <Route index element={<DealsPage />} />
+            <Route
+              index
+              element={
+                <RequireRole role="investor">
+                  <DealsPage />
+                </RequireRole>
+              }
+            />
+          </Route>
+
+          <Route path="/wallet" element={<DashboardLayout />}>
+            <Route index element={<WalletPage />} />
           </Route>
 
           <Route path="/meetings" element={<DashboardLayout />}>

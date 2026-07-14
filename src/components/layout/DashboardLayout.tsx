@@ -3,6 +3,7 @@ import { Outlet, Navigate } from 'react-router-dom';
 import { useAuth } from '../../context/AuthContext';
 import { Navbar } from './Navbar';
 import { Sidebar } from './Sidebar';
+import { TourProvider } from '../tour/GuidedTour';
 
 export const DashboardLayout: React.FC = () => {
   const { user, isAuthenticated, isLoading } = useAuth();
@@ -20,18 +21,20 @@ export const DashboardLayout: React.FC = () => {
   }
   
   return (
-    <div className="min-h-screen bg-gray-50 flex flex-col">
-      <Navbar />
-      
-      <div className="flex-1 flex overflow-hidden">
-        <Sidebar />
-        
-        <main className="flex-1 overflow-y-auto p-6">
-          <div className="max-w-7xl mx-auto">
-            <Outlet />
-          </div>
-        </main>
+    <TourProvider>
+      <div className="min-h-screen bg-gray-50 flex flex-col">
+        <Navbar />
+
+        <div className="flex-1 flex overflow-hidden">
+          <Sidebar />
+
+          <main className="flex-1 overflow-y-auto p-6">
+            <div className="max-w-7xl mx-auto">
+              <Outlet />
+            </div>
+          </main>
+        </div>
       </div>
-    </div>
+    </TourProvider>
   );
 };

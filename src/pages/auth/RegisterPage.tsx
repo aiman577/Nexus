@@ -4,6 +4,7 @@ import { User, Mail, Lock, CircleDollarSign, Building2, AlertCircle } from 'luci
 import { useAuth } from '../../context/AuthContext';
 import { Button } from '../../components/ui/Button';
 import { Input } from '../../components/ui/Input';
+import { PasswordStrengthMeter, scorePassword } from '../../components/ui/PasswordStrengthMeter';
 import { UserRole } from '../../types';
 
 export const RegisterPage: React.FC = () => {
@@ -27,7 +28,12 @@ export const RegisterPage: React.FC = () => {
       setError('Passwords do not match');
       return;
     }
-    
+
+    if (scorePassword(password) < 3) {
+      setError('Please choose a stronger password (see the checklist below the password field)');
+      return;
+    }
+
     setIsLoading(true);
     
     try {
@@ -122,16 +128,19 @@ export const RegisterPage: React.FC = () => {
               startAdornment={<Mail size={18} />}
             />
             
-            <Input
-              label="Password"
-              type="password"
-              value={password}
-              onChange={(e) => setPassword(e.target.value)}
-              required
-              fullWidth
-              startAdornment={<Lock size={18} />}
-            />
-            
+            <div>
+              <Input
+                label="Password"
+                type="password"
+                value={password}
+                onChange={(e) => setPassword(e.target.value)}
+                required
+                fullWidth
+                startAdornment={<Lock size={18} />}
+              />
+              <PasswordStrengthMeter password={password} />
+            </div>
+
             <Input
               label="Confirm password"
               type="password"

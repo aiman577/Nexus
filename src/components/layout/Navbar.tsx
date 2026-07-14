@@ -4,6 +4,7 @@ import { Menu, X, Bell, MessageCircle, User, LogOut, Building2, CircleDollarSign
 import { useAuth } from '../../context/AuthContext';
 import { Avatar } from '../ui/Avatar';
 import { Button } from '../ui/Button';
+import { TourButton } from '../tour/GuidedTour';
 
 export const Navbar: React.FC = () => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
@@ -70,7 +71,7 @@ export const Navbar: React.FC = () => {
           </div>
           
           {/* Desktop navigation */}
-          <div className="hidden md:flex md:items-center md:ml-6">
+          <div className="hidden lg:flex lg:items-center lg:ml-6">
             {user ? (
               <div className="flex items-center space-x-4">
                 {navLinks.map((link, index) => (
@@ -83,8 +84,10 @@ export const Navbar: React.FC = () => {
                     {link.text}
                   </Link>
                 ))}
-                
-                <Button 
+
+                <TourButton />
+
+                <Button
                   variant="ghost"
                   onClick={handleLogout}
                   leftIcon={<LogOut size={18} />}
@@ -115,7 +118,7 @@ export const Navbar: React.FC = () => {
           </div>
           
           {/* Mobile menu button */}
-          <div className="md:hidden flex items-center">
+          <div className="lg:hidden flex items-center">
             <button
               onClick={toggleMenu}
               className="inline-flex items-center justify-center p-2 rounded-md text-gray-700 hover:text-primary-600 hover:bg-gray-50 focus:outline-none"
@@ -132,7 +135,7 @@ export const Navbar: React.FC = () => {
       
       {/* Mobile menu */}
       {isMenuOpen && (
-        <div className="md:hidden bg-white border-b border-gray-200 animate-fade-in">
+        <div className="lg:hidden bg-white border-b border-gray-200 animate-fade-in">
           <div className="px-2 pt-2 pb-3 space-y-1 sm:px-3">
             {user ? (
               <>

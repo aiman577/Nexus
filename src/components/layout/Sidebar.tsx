@@ -3,19 +3,21 @@ import { NavLink } from 'react-router-dom';
 import { useAuth } from '../../context/AuthContext';
 import {
   Home, Building2, CircleDollarSign, Users, MessageCircle,
-  Bell, FileText, Settings, HelpCircle, Calendar, Video, FileSignature
+  Bell, FileText, Settings, HelpCircle, Calendar, Video, FileSignature, Wallet
 } from 'lucide-react';
 
 interface SidebarItemProps {
   to: string;
   icon: React.ReactNode;
   text: string;
+  tour?: string;
 }
 
-const SidebarItem: React.FC<SidebarItemProps> = ({ to, icon, text }) => {
+const SidebarItem: React.FC<SidebarItemProps> = ({ to, icon, text, tour }) => {
   return (
     <NavLink
       to={to}
+      data-tour={tour}
       className={({ isActive }) => 
         `flex items-center py-2.5 px-4 rounded-md transition-colors duration-200 ${
           isActive 
@@ -40,24 +42,26 @@ export const Sidebar: React.FC = () => {
     { to: '/dashboard/entrepreneur', icon: <Home size={20} />, text: 'Dashboard' },
     { to: '/profile/entrepreneur/' + user.id, icon: <Building2 size={20} />, text: 'My Startup' },
     { to: '/investors', icon: <CircleDollarSign size={20} />, text: 'Find Investors' },
-    { to: '/meetings', icon: <Calendar size={20} />, text: 'Meetings' },
-    { to: '/video-call', icon: <Video size={20} />, text: 'Video Call' },
+    { to: '/meetings', icon: <Calendar size={20} />, text: 'Meetings', tour: 'nav-meetings' },
+    { to: '/video-call', icon: <Video size={20} />, text: 'Video Call', tour: 'nav-video-call' },
     { to: '/messages', icon: <MessageCircle size={20} />, text: 'Messages' },
     { to: '/notifications', icon: <Bell size={20} />, text: 'Notifications' },
     { to: '/documents', icon: <FileText size={20} />, text: 'Documents' },
-    { to: '/document-chamber', icon: <FileSignature size={20} />, text: 'Document Chamber' },
+    { to: '/document-chamber', icon: <FileSignature size={20} />, text: 'Document Chamber', tour: 'nav-document-chamber' },
+    { to: '/wallet', icon: <Wallet size={20} />, text: 'Wallet', tour: 'nav-wallet' },
   ];
   
   const investorItems = [
     { to: '/dashboard/investor', icon: <Home size={20} />, text: 'Dashboard' },
     { to: '/profile/investor/' + user.id, icon: <CircleDollarSign size={20} />, text: 'My Portfolio' },
     { to: '/entrepreneurs', icon: <Users size={20} />, text: 'Find Startups' },
-    { to: '/meetings', icon: <Calendar size={20} />, text: 'Meetings' },
-    { to: '/video-call', icon: <Video size={20} />, text: 'Video Call' },
+    { to: '/meetings', icon: <Calendar size={20} />, text: 'Meetings', tour: 'nav-meetings' },
+    { to: '/video-call', icon: <Video size={20} />, text: 'Video Call', tour: 'nav-video-call' },
     { to: '/messages', icon: <MessageCircle size={20} />, text: 'Messages' },
     { to: '/notifications', icon: <Bell size={20} />, text: 'Notifications' },
     { to: '/deals', icon: <FileText size={20} />, text: 'Deals' },
-    { to: '/document-chamber', icon: <FileSignature size={20} />, text: 'Document Chamber' },
+    { to: '/document-chamber', icon: <FileSignature size={20} />, text: 'Document Chamber', tour: 'nav-document-chamber' },
+    { to: '/wallet', icon: <Wallet size={20} />, text: 'Wallet', tour: 'nav-wallet' },
   ];
   
   const sidebarItems = user.role === 'entrepreneur' ? entrepreneurItems : investorItems;
@@ -69,7 +73,7 @@ export const Sidebar: React.FC = () => {
   ];
   
   return (
-    <div className="w-64 bg-white h-full border-r border-gray-200 hidden md:block">
+    <div data-tour="sidebar" className="w-64 bg-white h-full border-r border-gray-200 hidden md:block">
       <div className="h-full flex flex-col">
         <div className="flex-1 py-4 overflow-y-auto">
           <div className="px-3 space-y-1">
@@ -79,6 +83,7 @@ export const Sidebar: React.FC = () => {
                 to={item.to}
                 icon={item.icon}
                 text={item.text}
+                tour={item.tour}
               />
             ))}
           </div>

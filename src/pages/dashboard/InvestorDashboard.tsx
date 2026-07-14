@@ -6,6 +6,7 @@ import { Card, CardBody, CardHeader } from '../../components/ui/Card';
 import { Input } from '../../components/ui/Input';
 import { Badge } from '../../components/ui/Badge';
 import { EntrepreneurCard } from '../../components/entrepreneur/EntrepreneurCard';
+import { WalletBanner } from '../../components/wallet/WalletBanner';
 import { useAuth } from '../../context/AuthContext';
 import { Entrepreneur } from '../../types';
 import { entrepreneurs } from '../../data/users';
@@ -68,7 +69,9 @@ export const InvestorDashboard: React.FC = () => {
           </Button>
         </Link>
       </div>
-      
+
+      <WalletBanner />
+
       {/* Filters and search */}
       <div className="flex flex-col md:flex-row gap-4">
         <div className="w-full md:w-2/3">

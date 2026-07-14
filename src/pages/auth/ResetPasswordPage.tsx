@@ -4,6 +4,7 @@ import { Lock } from 'lucide-react';
 import { useAuth } from '../../context/AuthContext';
 import { Button } from '../../components/ui/Button';
 import { Input } from '../../components/ui/Input';
+import { PasswordStrengthMeter, scorePassword } from '../../components/ui/PasswordStrengthMeter';
 
 export const ResetPasswordPage: React.FC = () => {
   const [password, setPassword] = useState('');
@@ -25,7 +26,11 @@ export const ResetPasswordPage: React.FC = () => {
     if (password !== confirmPassword) {
       return;
     }
-    
+
+    if (scorePassword(password) < 3) {
+      return;
+    }
+
     setIsLoading(true);
     
     try {
@@ -76,16 +81,19 @@ export const ResetPasswordPage: React.FC = () => {
         
         <div className="mt-8 bg-white py-8 px-4 shadow sm:rounded-lg sm:px-10">
           <form className="space-y-6" onSubmit={handleSubmit}>
-            <Input
-              label="New password"
-              type="password"
-              value={password}
-              onChange={(e) => setPassword(e.target.value)}
-              required
-              fullWidth
-              startAdornment={<Lock size={18} />}
-            />
-            
+            <div>
+              <Input
+                label="New password"
+                type="password"
+                value={password}
+                onChange={(e) => setPassword(e.target.value)}
+                required
+                fullWidth
+                startAdornment={<Lock size={18} />}
+              />
+              <PasswordStrengthMeter password={password} />
+            </div>
+
             <Input
               label="Confirm new password"
               type="password"

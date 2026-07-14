@@ -5,6 +5,7 @@ import { Button } from '../../components/ui/Button';
 import { Card, CardBody, CardHeader } from '../../components/ui/Card';
 import { Badge } from '../../components/ui/Badge';
 import { CollaborationRequestCard } from '../../components/collaboration/CollaborationRequestCard';
+import { WalletBanner } from '../../components/wallet/WalletBanner';
 import { InvestorCard } from '../../components/investor/InvestorCard';
 import { useAuth } from '../../context/AuthContext';
 import { CollaborationRequest } from '../../types';
@@ -55,7 +56,9 @@ export const EntrepreneurDashboard: React.FC = () => {
           </Button>
         </Link>
       </div>
-      
+
+      <WalletBanner />
+
       {/* Summary cards */}
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
         <Card className="bg-primary-50 border border-primary-100">
